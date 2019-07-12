@@ -39,10 +39,17 @@ export interface DefaultFunctionWithDescription<T> extends DefaultFunction<T> {
   description: string
 }
 
-export interface ValidationResult<T> extends Pick<Promise<T>, 'then' | 'catch'> {
-  error: Joi.ValidationError | null;
+export interface ValidationResultSuccess<T> extends Pick<Promise<T>, 'then' | 'catch'> {
+  error: null;
   value: T;
 }
+
+export interface ValidationResultError {
+  error: Joi.ValidationError;
+  value: null;
+}
+
+export type ValidationResult<T> = ValidationResultError | ValidationResultSuccess<T>;
 
 export type ValidationCallback<T> = (err: Joi.ValidationError, value: T) => void
 
